@@ -213,3 +213,12 @@ app.delete(
         )
     }
 )
+
+//Route not found handler
+app.use((req, res) => {
+    return errorResponse(
+        res,
+        'Endpoint not found',
+        404
+    )
+})
