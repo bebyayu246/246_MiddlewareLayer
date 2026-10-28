@@ -222,3 +222,19 @@ app.use((req, res) => {
         404
     )
 })
+
+//Global error handler
+app.use((err, req, res, next) => {
+    console.error(err)
+
+    if (res.headersSent) {
+        return next(err)
+    }
+
+    return errorResponse(
+        res,
+        'Internal server error',
+        500
+    )
+})
+
