@@ -186,3 +186,30 @@ app.put(
     }
 )
 
+//Endpoint delete biodata by ID
+app.delete(
+    '/biodata/:id', 
+    validateParams(idSchema),
+    async (req, res) => {
+        const { id } = req.params
+
+        const result = await pool.query(
+            `DELETE FROM biodata WHERE id = $1 RETURNING *`,
+            [id]
+        )
+
+        if (result.rowCount === 0) {
+            return errorResponse(
+                res,
+                'Data not found',
+                404
+            )
+        }
+
+        return successResponse(
+            res,
+            'Data deleted successfully',
+            result.rows[0]
+        )
+    }
+)
